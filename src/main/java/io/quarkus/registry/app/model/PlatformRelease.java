@@ -119,6 +119,9 @@ public class PlatformRelease extends BaseEntity {
     @OneToMany(mappedBy = "platformRelease", orphanRemoval = true)
     public List<PlatformExtension> extensions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "platformRelease", orphanRemoval = true)
+    public List<PlatformReleaseCategory> categories = new ArrayList<>();
+
     public PlatformRelease() {
     }
 
