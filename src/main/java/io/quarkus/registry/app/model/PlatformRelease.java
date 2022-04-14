@@ -1,5 +1,7 @@
 package io.quarkus.registry.app.model;
 
+import static io.quarkus.panache.common.Parameters.with;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +18,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.TypedQuery;
 
-import io.quarkus.maven.ArtifactCoords;
 import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 
 import io.quarkiverse.hibernate.types.json.JsonTypes;
+import io.quarkus.maven.ArtifactCoords;
 import io.quarkus.registry.app.util.Version;
-
-import static io.quarkus.panache.common.Parameters.with;
 
 @Entity
 @NamedQueries({
@@ -214,8 +214,7 @@ public class PlatformRelease extends BaseEntity {
         return count("#PlatformRelease.countArtifactCoordinates",
                 with("groupId", artifact.getGroupId())
                         .and("artifactId", artifact.getArtifactId())
-                        .and("version", artifact.getVersion()))
-                == 1;
+                        .and("version", artifact.getVersion())) == 1;
     }
 
     public static Optional<PlatformRelease> findByArtifactCoordinates(ArtifactCoords artifact) {
@@ -223,6 +222,6 @@ public class PlatformRelease extends BaseEntity {
                 with("groupId", artifact.getGroupId())
                         .and("artifactId", artifact.getArtifactId())
                         .and("version", artifact.getVersion()))
-                .firstResultOptional();
+                                .firstResultOptional();
     }
 }
