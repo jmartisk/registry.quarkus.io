@@ -8,21 +8,21 @@ import javax.transaction.Transactional;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import io.quarkus.registry.app.BaseTest;
 import io.quarkus.registry.app.model.Platform;
 import io.quarkus.registry.app.model.PlatformRelease;
 import io.quarkus.registry.app.model.PlatformStream;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-public class MavenResourceTest {
+public class MavenResourceTest extends BaseTest {
 
-    @BeforeAll
+    @BeforeEach
     @Transactional
-    static void setUp() {
+    void setUp() {
         {
             Platform platform = Platform.findByKey("io.quarkus.platform").get();
             PlatformStream stream20 = new PlatformStream();
@@ -93,12 +93,5 @@ public class MavenResourceTest {
                 .statusCode(200)
                 .header(HttpHeaders.CONTENT_TYPE, containsString(MediaType.APPLICATION_JSON))
                 .body("quarkus-core-version", is("2.1.3.Final"));
-    }
-
-    @AfterAll
-    @Transactional
-    static void tearDown() {
-        PlatformRelease.deleteAll();
-        PlatformStream.deleteAll();
     }
 }
