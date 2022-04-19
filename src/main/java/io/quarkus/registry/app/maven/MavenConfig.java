@@ -38,6 +38,10 @@ public class MavenConfig {
     @ConfigProperty(name = "quarkus.registry.quarkus-versions.exclusive-provider")
     Optional<Boolean> quarkusVersionsExclusiveProvider;
 
+    @Inject
+    @ConfigProperty(name = "quarkus.registry.platform.extension-catalog-included")
+    Optional<Boolean> extensionCatalogIncluded;
+
     private ArtifactCoords nonPlatformExtensionCoords;
 
     @PostConstruct
@@ -117,5 +121,9 @@ public class MavenConfig {
 
     public Optional<Boolean> getQuarkusVersionsExclusiveProvider() {
         return quarkusVersionsExclusiveProvider;
+    }
+
+    public Optional<Boolean> getExtensionCatalogIncluded() {
+        return extensionCatalogIncluded;
     }
 }
