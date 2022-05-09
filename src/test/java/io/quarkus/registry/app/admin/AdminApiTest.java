@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.hasSize;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -155,6 +156,7 @@ class AdminApiTest extends BaseTest {
                 .contentType(ContentType.JSON)
                 .post("/admin/v1/extension")
                 .then()
+                .log().ifValidationFails()
                 .statusCode(HttpURLConnection.HTTP_ACCEPTED)
                 .contentType(ContentType.JSON);
 
@@ -163,6 +165,7 @@ class AdminApiTest extends BaseTest {
                 .then()
                 .statusCode(HttpURLConnection.HTTP_OK)
                 .contentType(ContentType.JSON)
+                .log().ifValidationFails()
                 .body("extensions.name", hasItem("Another Name"),
                         "extensions.description", hasItem("Another Description"));
 
@@ -177,8 +180,8 @@ class AdminApiTest extends BaseTest {
                 .then()
                 .statusCode(HttpURLConnection.HTTP_BAD_REQUEST)
                 .contentType(ContentType.JSON)
-                .body("violations.message", hasItem("X-Platform header missing"),
-                        "violations.message", hasItem("Body payload is missing"));
+                .body("parameter-violations.message", hasItem("X-Platform header missing"),
+                        "parameter-violations.message", hasItem("Body payload is missing"));
     }
 
     @Test
